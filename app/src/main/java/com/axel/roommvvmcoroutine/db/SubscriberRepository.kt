@@ -2,6 +2,8 @@ package com.axel.roommvvmcoroutine.db
 
 class SubscriberRepository(private val dao : SubscriberDAO) {
 
+    val subscribers = dao.getAllSubscribers()
+
    suspend fun insert(subscriber: Subscriber){
        dao.insertSubscriber(subscriber)
    }
@@ -18,6 +20,6 @@ class SubscriberRepository(private val dao : SubscriberDAO) {
         dao.deleteAllSubscriber()
     }
 
-    suspend fun getAll() = dao.getAllSubscriber()
+    suspend fun getAll() = dao.getAllSubscribers()
 
 }
