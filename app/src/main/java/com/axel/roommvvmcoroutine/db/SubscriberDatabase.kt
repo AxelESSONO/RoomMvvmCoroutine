@@ -9,7 +9,7 @@ import com.axel.roommvvmcoroutine.utils.SUBSCRIBER_DATA_BASE
 @Database(entities = [Subscriber::class], version = 1)
 abstract class SubscriberDatabase : RoomDatabase() {
 
-    //abstract val subscriberDAO : SubscriberDAO
+    abstract val subscriberDAO : SubscriberDAO
 
     companion object{
         @Volatile

@@ -1,6 +1,7 @@
 package com.axel.roommvvmcoroutine.viewmodel
 
 import androidx.databinding.Bindable
+import androidx.databinding.Observable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,15 +9,15 @@ import com.axel.roommvvmcoroutine.db.Subscriber
 import com.axel.roommvvmcoroutine.db.SubscriberRepository
 import kotlinx.coroutines.launch
 
-class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel() {
+class SubscriberViewModel(private val repository: SubscriberRepository) : ViewModel(), Observable {
 
     val subscribers         = repository.subscribers
 
     @Bindable
-    val inputName           = MutableLiveData<String?>()
+    var inputName           = MutableLiveData<String?>()
 
     @Bindable
-    val inputEmail          = MutableLiveData<String?>()
+    var inputEmail          = MutableLiveData<String?>()
 
     @Bindable
     val insertButtonText    = MutableLiveData<String>()
@@ -38,31 +39,41 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
     }
 
     fun insertSubscriber(){
-        insert(
-            Subscriber(0, inputName.value!!, inputEmail.value!!)
-        )
+
+        if (inputEmail.value != null && inputName.value != null){
+            insert(
+                Subscriber(0, inputName.value, inputEmail.value)
+            )
+        }
         inputEmail.value = null
         inputName.value  = null
     }
 
     fun updateSubscriber(){
-        update(
-            Subscriber(0, inputName.value!!, inputEmail.value!!)
-        )
+
+        if (inputEmail.value != null && inputName.value != null){
+            update(
+                Subscriber(0, inputName.value, inputEmail.value)
+            )
+        }
         inputEmail.value = null
         inputName.value  = null
     }
 
     fun deleteSubscriber(){
-        delete(
-            Subscriber(0, inputName.value!!, inputEmail.value!!)
-        )
+        if (inputEmail.value != null && inputName.value != null){
+            delete(
+                Subscriber(0, inputName.value, inputEmail.value)
+            )
+        }
         inputEmail.value = null
         inputName.value  = null
     }
 
     fun deleteAllSubscribers(){
-        deleteAll()
+        if (inputEmail.value != null && inputName.value != null){
+            deleteAll()
+        }
         inputEmail.value = null
         inputName.value  = null
     }
@@ -81,6 +92,14 @@ class SubscriberViewModel(private val repository: SubscriberRepository) : ViewMo
 
     private fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
+    }
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
+    }
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+
     }
 
 }

@@ -13,8 +13,8 @@ data class Subscriber(
     val id : Int,
 
     @ColumnInfo(name = SUBSCRIBER_NAME)
-    val name : String,
+    val name : String?,
 
     @ColumnInfo(name = SUBSCRIBER_EMAIL)
-    val email : String
+    val email : String?
 )
